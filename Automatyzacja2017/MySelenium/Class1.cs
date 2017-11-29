@@ -11,6 +11,8 @@ namespace SeleniumTests
 {
     public class Example : IDisposable
     {
+        private const string SearchTextBoxId = "lst-ib";
+        private const string Google = "https://www.google.com";
         private IWebDriver driver;
         private StringBuilder verificationErrors;
         private string baseURL;
@@ -39,12 +41,15 @@ namespace SeleniumTests
 
 
         [Fact]
-        public void TheExampleTest()
+        public void NavigatingToCodeSprintersSite()
         {
-            driver.Navigate().GoToUrl(baseURL + "/?gfe_rd=cr&dcr=0&ei=4FsdWtrJL8mv8wei1rjgAw");
-            driver.FindElement(By.Id("lst-ib")).Clear();
-            driver.FindElement(By.Id("lst-ib")).SendKeys("codesprinters");
-            driver.FindElement(By.Id("lst-ib")).Submit();
+            driver.Navigate().GoToUrl(Google);
+
+            var searchBox = driver.FindElement(By.Id(SearchTextBoxId));
+            searchBox.Clear();
+            searchBox.SendKeys("code sprinters");
+            searchBox.Submit();
+
             driver.FindElement(By.LinkText("Code Sprinters -")).Click();
 
             var element = driver.FindElement(By.LinkText("Poznaj nasze podejście"));
