@@ -7,6 +7,7 @@ using OpenQA.Selenium.Chrome;
 using System.Linq;
 using OpenQA.Selenium.Firefox;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace SeleniumTests
 {
@@ -16,6 +17,7 @@ namespace SeleniumTests
         private const string Google = "https://www.google.com";
         private const string PageTitle = "Code Sprinters -";
         private const string TextToSearch = "code sprinters";
+        private const string LinkTextToFind = "Poznaj nasze podejście";
         private IWebDriver driver;
         private StringBuilder verificationErrors;
 
@@ -35,8 +37,11 @@ namespace SeleniumTests
             Search(TextToSearch);
             GoToSearchResultByPageTitle(PageTitle);
 
+            Assert.Single(GetElementsByLinkText(LinkTextToFind));
 
-            var element = driver.FindElement(By.LinkText("Poznaj nasze podejście"));
+            driver.FindElement(By.LinkText("Akceptuję")).Click();
+
+            var element = driver.FindElement(By.LinkText(LinkTextToFind));
             Assert.NotNull(element);
 
             var elements = driver.FindElements(By.LinkText("Poznaj nasze podejście"));
@@ -61,7 +66,11 @@ namespace SeleniumTests
 
 
         }
-
+        
+        private ReadOnlyCollection<IWebElement> GetElementsByLinkText(string link)
+        {
+            return driver.FindElements(By.LinkText(link));
+        }
         private void Search(string query)
         {
             var searchBox = GetSearchBox();
