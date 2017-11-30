@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using System;
+using System.Linq;
 
 namespace PageObjcectTests
 {
@@ -14,6 +15,10 @@ namespace PageObjcectTests
             var email = Browser.FindElementById("email");
             email.Click();
             email.SendKeys(testData.Mail);
+
+
+            var nameLabel = Browser.FindByXpath("//label[@for='author']");
+            nameLabel.First().Click();
 
             var name = Browser.FindElementById("author");
             name.Click();
